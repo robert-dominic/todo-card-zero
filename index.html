@@ -49,6 +49,30 @@
                 Due Apr 16, 2026
             </time>
 
+            <!-- EDIT FORM (hidden by default) -->
+            <div class="edit-form" id="edit-form" style="display:none;">
+                <div class="edit-field">
+                    <label for="edit-title">Title</label>
+                    <input type="text" id="edit-title" placeholder="Task title" />
+                </div>
+                <div class="edit-field">
+                    <label for="edit-description">Description</label>
+                    <textarea id="edit-description" placeholder="Task description" rows="3"></textarea>
+                </div>
+                <div class="edit-field">
+                    <label for="edit-priority">Priority</label>
+                    <select id="edit-priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High" selected>High</option>
+                    </select>
+                </div>
+                <div class="edit-field">
+                    <label for="edit-due-date">Due Date</label>
+                    <input type="date" id="edit-due-date" />
+                </div>
+            </div>
+
             <ul role="list" data-testid="test-todo-tags">
                 <li data-testid="test-todo-tag-work">work</li>
                 <li data-testid="test-todo-tag-urgent">urgent</li>
