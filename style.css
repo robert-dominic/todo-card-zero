@@ -268,17 +268,18 @@ input[type="checkbox"]:checked::before {
 
 .action-buttons {
     display: flex;
-    gap: 8px;
+    gap: 4px;
 }
 
 [data-testid="test-todo-time-remaining"] {
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 12px;
+    gap: 2px;
+    font-size: 10px;
     font-weight: 500;
     font-style: italic;
     color: var(--green);
+    padding-top: 6px;
 }
 
 [data-testid="test-todo-time-remaining"] svg {
@@ -395,6 +396,15 @@ input[type="checkbox"]:focus-visible {
 
     [data-testid="test-todo-description"] {
         font-size: 14px;
+    }
+
+    .card-actions {
+        margin-top: 16px;
+        gap: 12px;
+    }
+
+    [data-testid="test-todo-time-remaining"] {
+        font-size: 12px;
     }
 }
 
