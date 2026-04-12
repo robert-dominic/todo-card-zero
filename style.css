@@ -1,0 +1,336 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563EB;
+    --primary-light: #60A5FA;
+    --bg-page: #F0F4FF;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6B7280;
+    --border: #DBEAFE;
+    --green: #16A34A;
+    --green-bg: #DCFCE7;
+    --amber: #B45309;
+    --amber-bg: #FEF3C7;
+    --red: #DC2626;
+    --red-bg: #FEE2E2;
+    --blue-badge-bg: #EFF6FF;
+    --blue-badge-color: #2563EB;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+    background-color: var(--bg-page);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+main {
+    width: 100%;
+    max-width: 440px;
+}
+
+.page-header {
+    margin-bottom: 1.25rem;
+    padding-left: 4px;
+}
+
+.page-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.page-header p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+article {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: 12px;
+    padding: 1.25rem;
+    width: 100%;
+    box-shadow:
+        0 1px 2px rgba(37, 99, 235, 0.04),
+        0 4px 8px rgba(37, 99, 235, 0.06),
+        0 8px 16px rgba(37, 99, 235, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+article:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 2px 4px rgba(37, 99, 235, 0.06),
+        0 8px 16px rgba(37, 99, 235, 0.1),
+        0 16px 32px rgba(37, 99, 235, 0.1);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+[data-testid="test-todo-priority"] {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+[data-testid="test-todo-status"] {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--blue-badge-bg);
+    color: var(--blue-badge-color);
+}
+
+[data-testid="test-todo-status"] svg,
+[data-testid="test-todo-priority"] svg {
+    width: 12px;
+    height: 12px;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.emoji-fallback {
+    font-size: 12px;
+}
+
+.title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.title-row label {
+    cursor: pointer;
+    flex: 1;
+}
+
+.title-row h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.title-row input[type="checkbox"] {
+    margin-top: 4px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    accent-color: #16A34A;
+    position: relative;
+    z-index: 1;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(22, 163, 74, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 0.6s ease-out forwards;
+}
+
+[data-testid="test-todo-description"] {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 14px 26px;
+    line-height: 1.6;
+}
+
+.divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    margin: 14px 0;
+}
+
+[data-testid="test-todo-due-date"] {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+[data-testid="test-todo-due-date"] svg {
+    width: 13px;
+    height: 13px;
+}
+
+[data-testid="test-todo-tags"] {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+[data-testid="test-todo-tags"] li {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--bg-page);
+    color: var(--text-secondary);
+    border: 0.5px solid var(--border);
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 0.5px solid var(--border);
+    padding-top: 12px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+[data-testid="test-todo-time-remaining"] {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--green);
+}
+
+[data-testid="test-todo-time-remaining"] svg {
+    width: 14px;
+    height: 14px;
+}
+
+[data-testid="test-todo-edit-button"] {
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 8px;
+    border: 0.5px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+[data-testid="test-todo-delete-button"] {
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 8px;
+    border: 0.5px solid #FECACA;
+    background: transparent;
+    color: var(--red);
+    cursor: pointer;
+}
+
+.deleted-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 8px;
+}
+
+.deleted-message p {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.deleted-message span {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button:focus-visible,
+input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (min-width: 480px) {
+    main {
+        max-width: 460px;
+    }
+}
+
+@media (min-width: 768px) {
+    body {
+        align-items: center;
+        padding: 3rem 2rem;
+    }
+
+    main {
+        max-width: 500px;
+    }
+
+    article {
+        padding: 1.75rem;
+    }
+
+    .title-row h2 {
+        font-size: 18px;
+    }
+
+    [data-testid="test-todo-description"] {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 1200px) {
+    main {
+        max-width: 540px;
+    }
+
+    article {
+        padding: 2rem;
+    }
+}
+
+@keyframes ripple {
+    to {
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
