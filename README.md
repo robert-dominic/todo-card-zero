@@ -28,8 +28,6 @@ cd todo-card
 open index.html
 ```
 
-No dependencies. No build step. Just open the file.
-
 ## Live Demo
 
 [View on Vercel](#) — replace with your live URL
