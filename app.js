@@ -24,7 +24,6 @@ function createIcon(name, fallback) {
     return `<span class="emoji-fallback">${fallback}</span>`
 }
 
-// Load from localStorage or use defaults
 const defaults = {
     title: 'Submit Q3 project report',
     description: 'Make sure to include all Q3 data, charts, and the executive summary.',
@@ -35,8 +34,7 @@ const defaults = {
 const saved = JSON.parse(localStorage.getItem('todo-card') || 'null')
 const state = saved || { ...defaults }
 
-// Time remaining
-let dueDate = new Date(state.dueDate + 'T09:00:00')
+let dueDate = new Date(state.dueDate + 'T23:59:59')
 
 function formatDate(dateStr) {
     const date = new Date(dateStr + 'T00:00:00')
@@ -47,6 +45,15 @@ function getPriorityColors(priority) {
     if (priority === 'Low') return { bg: 'var(--green-bg)', color: 'var(--green)' }
     if (priority === 'Medium') return { bg: 'var(--amber-bg)', color: 'var(--amber)' }
     return { bg: 'var(--red-bg)', color: 'var(--red)' }
+}
+
+function resetStatus() {
+    if (!checkbox.checked) {
+        statusBadge.innerHTML = createIcon('clock', '🕐') + ' In Progress'
+        statusBadge.style.background = 'var(--blue-badge-bg)'
+        statusBadge.style.color = 'var(--blue-badge-color)'
+        if (lucideAvailable) lucide.createIcons()
+    }
 }
 
 function renderCard() {
@@ -63,7 +70,8 @@ function renderCard() {
 
     if (lucideAvailable) lucide.createIcons()
 
-    dueDate = new Date(state.dueDate + 'T09:00:00')
+    dueDate = new Date(state.dueDate + 'T23:59:59')
+    resetStatus()
     updateTimeRemaining()
 }
 
@@ -74,7 +82,6 @@ let isEditing = false
 
 editBtn.addEventListener('click', () => {
     if (!isEditing) {
-        // Enter edit mode
         isEditing = true
         editTitleInput.value = state.title
         editDescInput.value = state.description
@@ -88,7 +95,6 @@ editBtn.addEventListener('click', () => {
         deleteBtn.classList.add('cancel-mode')
 
     } else {
-        // Save
         state.title = editTitleInput.value.trim() || defaults.title
         state.description = editDescInput.value.trim() || defaults.description
         state.priority = editPriorityInput.value
@@ -132,7 +138,13 @@ function exitEditMode() {
     deleteBtn.classList.remove('cancel-mode')
 }
 
-// Checkbox
+editForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        editBtn.click()
+    }
+})
+
 checkbox.addEventListener('change', () => {
     if (checkbox.checked) {
         title.style.textDecoration = 'line-through'
@@ -169,9 +181,11 @@ function updateTimeRemaining() {
         else if (overdueHours < 24) text = `Overdue by ${overdueHours} hours`
         else text = `Overdue by ${overdueDays} days`
 
-        statusBadge.innerHTML = createIcon('alert-circle', '🔴') + ' Overdue'
-        statusBadge.style.background = 'var(--red-bg)'
-        statusBadge.style.color = 'var(--red)'
+        if (!checkbox.checked) {
+            statusBadge.innerHTML = createIcon('alert-circle', '🔴') + ' Overdue'
+            statusBadge.style.background = 'var(--red-bg)'
+            statusBadge.style.color = 'var(--red)'
+        }
         timeRemaining.style.color = 'var(--red)'
 
     } else {
