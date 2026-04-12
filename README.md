@@ -19,6 +19,7 @@ A testable, accessible, and responsive Todo Card component built with vanilla HT
 - Vanilla JavaScript
 - Lucide Icons (CDN)
 - Ubuntu font (Google Fonts)
+- Jest + jsdom (testing)
 
 ## Running Locally
 
@@ -26,6 +27,13 @@ A testable, accessible, and responsive Todo Card component built with vanilla HT
 git clone https://github.com/robert-dominic/todo-card.git
 cd todo-card
 open index.html
+```
+
+## Running Tests
+
+```bash
+npm install
+npm test
 ```
 
 ## Live Demo
