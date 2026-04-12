@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Card</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <main>
+        <header class="page-header">
+            <h1>My Tasks</h1>
+            <p>Track and manage your to-dos</p>
+        </header>
+
+        <article data-testid="test-todo-card">
+
+            <div class="card-top">
+                <span data-testid="test-todo-priority">
+                    <span class="icon"><i data-lucide="alert-triangle"></i><span class="emoji-fallback">⚠️</span></span>
+                    High
+                </span>
+                <span data-testid="test-todo-status">
+                    <span class="icon"><i data-lucide="clock"></i><span class="emoji-fallback">🕐</span></span>
+                    In Progress
+                </span>
+            </div>
+
+            <div class="title-row">
+                <input type="checkbox" id="complete-toggle" data-testid="test-todo-complete-toggle"
+                    aria-label="Mark task as complete" />
+                <label for="complete-toggle">
+                    <h2 data-testid="test-todo-title">Submit Q3 project report</h2>
+                </label>
+            </div>
+
+            <p data-testid="test-todo-description">
+                Make sure to include all Q3 data, charts, and the executive summary.
+            </p>
+
+            <hr class="divider" />
+
+            <time data-testid="test-todo-due-date" datetime="2026-04-16">
+                <span class="icon"><i data-lucide="calendar"></i><span class="emoji-fallback">📅</span></span>
+                Due Apr 16, 2026
+            </time>
+
+            <ul role="list" data-testid="test-todo-tags">
+                <li data-testid="test-todo-tag-work">work</li>
+                <li data-testid="test-todo-tag-urgent">urgent</li>
+                <li>design</li>
+            </ul>
+
+            <div class="card-actions">
+                <span data-testid="test-todo-time-remaining" aria-live="polite">
+                    <span class="icon"><i data-lucide="clock"></i><span class="emoji-fallback">🕐</span></span>
+                    <span class="time-text">Due in 4 days</span>
+                </span>
+                <div class="action-buttons">
+                    <button data-testid="test-todo-edit-button" aria-label="Edit task">Edit</button>
+                    <button data-testid="test-todo-delete-button" aria-label="Delete task">Delete</button>
+                </div>
+            </div>
+
+        </article>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+            document.querySelectorAll('.emoji-fallback').forEach(el => el.style.display = 'none');
+        }
+    </script>
+</body>
+
+</html>
