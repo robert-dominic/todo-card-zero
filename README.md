@@ -30,7 +30,7 @@ open index.html
 
 ## Live Demo
 
-[View on Vercel](#) — replace with your live URL
+[https://robert-dominic.github.io/todo-card-zero/](#) — View the live URL here.
 
 ## Submission
 
