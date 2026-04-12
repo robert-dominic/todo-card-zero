@@ -193,6 +193,54 @@ input[type="checkbox"]:checked::before {
     height: 13px;
 }
 
+/* Edit Form */
+.edit-form {
+    background: var(--bg-page);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeIn 0.2s ease;
+}
+
+.edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.edit-field label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.edit-field input[type="text"],
+.edit-field input[type="date"],
+.edit-field textarea,
+.edit-field select {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    resize: none;
+}
+
+.edit-field input:focus,
+.edit-field textarea:focus,
+.edit-field select:focus {
+    border-color: var(--primary);
+}
+
 [data-testid="test-todo-tags"] {
     list-style: none;
     display: flex;
@@ -246,6 +294,13 @@ input[type="checkbox"]:checked::before {
     background: transparent;
     color: var(--text-primary);
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[data-testid="test-todo-edit-button"].save-mode {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
 }
 
 [data-testid="test-todo-delete-button"] {
@@ -256,6 +311,12 @@ input[type="checkbox"]:checked::before {
     background: transparent;
     color: var(--red);
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[data-testid="test-todo-delete-button"].cancel-mode {
+    border-color: var(--border);
+    color: var(--text-secondary);
 }
 
 .deleted-message {
@@ -286,6 +347,26 @@ button:focus-visible,
 input[type="checkbox"]:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ripple {
+    to {
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
 }
 
 @media (min-width: 480px) {
@@ -324,13 +405,5 @@ input[type="checkbox"]:focus-visible {
 
     article {
         padding: 2rem;
-    }
-}
-
-@keyframes ripple {
-    to {
-        width: 40px;
-        height: 40px;
-        opacity: 0;
     }
 }
