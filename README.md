@@ -29,13 +29,6 @@ cd todo-card
 open index.html
 ```
 
-## Running Tests
-
-```bash
-npm install
-npm test
-```
-
 ## Live Demo
 
 [https://robert-dominic.github.io/todo-card-zero/](#) — View the live URL here.
