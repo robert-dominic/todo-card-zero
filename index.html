@@ -19,17 +19,25 @@
 
         <article data-testid="test-todo-card">
 
+            <!-- TOP ROW: Priority badge + status badge -->
             <div class="card-top">
+                <!-- Priority badge (display only) -->
                 <span data-testid="test-todo-priority">
                     <span class="icon"><i data-lucide="alert-triangle"></i><span class="emoji-fallback">⚠️</span></span>
-                    High
+                    <span class="priority-label">High</span>
                 </span>
-                <span data-testid="test-todo-status">
+
+                <!-- Status badge (display only, synced with control) -->
+                <span data-testid="test-todo-status" aria-live="polite">
                     <span class="icon"><i data-lucide="clock"></i><span class="emoji-fallback">🕐</span></span>
                     In Progress
                 </span>
             </div>
 
+            <!-- Priority indicator (visual accent element) -->
+            <div data-testid="test-todo-priority-indicator" class="priority-indicator" aria-hidden="true"></div>
+
+            <!-- Title row: checkbox + title -->
             <div class="title-row">
                 <input type="checkbox" id="complete-toggle" data-testid="test-todo-complete-toggle"
                     aria-label="Mark task as complete" />
@@ -38,9 +46,24 @@
                 </label>
             </div>
 
-            <p data-testid="test-todo-description">
-                Make sure to include all Q3 data, charts, and the executive summary.
-            </p>
+            <!-- Description: collapsible -->
+            <div data-testid="test-todo-collapsible-section" id="collapsible-section" class="collapsible-section"
+                aria-live="polite">
+                <p data-testid="test-todo-description">
+                    Make sure to include all Q3 data, charts, and the executive summary. This report will be reviewed by
+                    leadership and needs to be thorough, well-formatted, and submitted before the deadline without
+                    exception.
+                </p>
+            </div>
+            <button data-testid="test-todo-expand-toggle" id="expand-toggle" class="expand-toggle" aria-expanded="false"
+                aria-controls="collapsible-section" type="button">
+                <span class="toggle-text">Show more</span>
+                <span class="icon"><i data-lucide="chevron-down"></i><span class="emoji-fallback">▾</span></span>
+            </button>
+
+            <!-- Overdue indicator: kept in DOM for test discovery, visually hidden always (top badge handles display) -->
+            <div data-testid="test-todo-overdue-indicator" id="overdue-indicator" class="overdue-indicator" role="alert"
+                aria-live="assertive" style="display:none;" aria-hidden="true"></div>
 
             <hr class="divider" />
 
@@ -50,18 +73,21 @@
             </time>
 
             <!-- EDIT FORM (hidden by default) -->
-            <div class="edit-form" id="edit-form" style="display:none;">
+            <div class="edit-form" id="edit-form" data-testid="test-todo-edit-form" style="display:none;" role="group"
+                aria-label="Edit task">
                 <div class="edit-field">
                     <label for="edit-title">Title</label>
-                    <input type="text" id="edit-title" placeholder="Task title" />
+                    <input type="text" id="edit-title" data-testid="test-todo-edit-title-input"
+                        placeholder="Task title" />
                 </div>
                 <div class="edit-field">
                     <label for="edit-description">Description</label>
-                    <textarea id="edit-description" placeholder="Task description" rows="3"></textarea>
+                    <textarea id="edit-description" data-testid="test-todo-edit-description-input"
+                        placeholder="Task description" rows="3"></textarea>
                 </div>
                 <div class="edit-field">
                     <label for="edit-priority">Priority</label>
-                    <select id="edit-priority">
+                    <select id="edit-priority" data-testid="test-todo-edit-priority-select">
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High" selected>High</option>
@@ -69,15 +95,30 @@
                 </div>
                 <div class="edit-field">
                     <label for="edit-due-date">Due Date</label>
-                    <input type="date" id="edit-due-date" />
+                    <input type="date" id="edit-due-date" data-testid="test-todo-edit-due-date-input" />
+                </div>
+                <div class="edit-form-actions">
+                    <button type="button" data-testid="test-todo-save-button" id="save-btn"
+                        aria-label="Save changes">Save</button>
+                    <button type="button" data-testid="test-todo-cancel-button" id="cancel-btn"
+                        aria-label="Cancel editing">Cancel</button>
                 </div>
             </div>
 
-            <ul role="list" data-testid="test-todo-tags">
-                <li data-testid="test-todo-tag-work">work</li>
-                <li data-testid="test-todo-tag-urgent">urgent</li>
-                <li>design</li>
-            </ul>
+            <!-- Tags + status control: same row, space-between -->
+            <div class="tags-status-row">
+                <ul role="list" data-testid="test-todo-tags">
+                    <li data-testid="test-todo-tag-work">work</li>
+                    <li data-testid="test-todo-tag-urgent">urgent</li>
+                    <li>design</li>
+                </ul>
+                <label for="status-control" class="sr-only">Task status</label>
+                <select id="status-control" data-testid="test-todo-status-control" aria-label="Task status">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress" selected>In Progress</option>
+                    <option value="Done">Done</option>
+                </select>
+            </div>
 
             <div class="card-actions">
                 <span data-testid="test-todo-time-remaining" aria-live="polite">
