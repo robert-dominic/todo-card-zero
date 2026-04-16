@@ -54,6 +54,7 @@ main {
     margin-top: 2px;
 }
 
+/*  CARD  */
 article {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -66,6 +67,7 @@ article {
         0 4px 8px rgba(37, 99, 235, 0.06),
         0 8px 16px rgba(37, 99, 235, 0.06);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
 article:hover {
@@ -76,13 +78,22 @@ article:hover {
         0 16px 32px rgba(37, 99, 235, 0.1);
 }
 
+/* Done state: muted overall */
+article.is-done {
+    opacity: 0.8;
+}
+
+/*  CARD TOP ROW  */
 .card-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
+/* Priority badge */
 [data-testid="test-todo-priority"] {
     display: flex;
     align-items: center;
@@ -95,6 +106,7 @@ article:hover {
     color: var(--red);
 }
 
+/* Status badge (display only) */
 [data-testid="test-todo-status"] {
     display: flex;
     align-items: center;
@@ -107,6 +119,70 @@ article:hover {
     color: var(--blue-badge-color);
 }
 
+/* Tags + status control: same row, tags left, dropdown right */
+.tags-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 8px;
+}
+
+/* Tags list inside the row — no bottom margin, row handles spacing */
+.tags-status-row [data-testid="test-todo-tags"] {
+    margin-bottom: 0;
+}
+
+/* Status control dropdown — styled like Delete button, square-ish border */
+[data-testid="test-todo-status-control"] {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 0.5px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+    appearance: auto;
+}
+
+[data-testid="test-todo-status-control"]:hover {
+    border-color: var(--primary-light);
+}
+
+[data-testid="test-todo-status-control"]:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Screen-reader only label */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/*  PRIORITY INDICATOR  */
+[data-testid="test-todo-priority-indicator"] {
+    width: 100%;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--red);
+    /* default High; JS overrides */
+    margin-bottom: 12px;
+    transition: background 0.3s ease;
+}
+
+/*  ICONS  */
 [data-testid="test-todo-status"] svg,
 [data-testid="test-todo-priority"] svg {
     width: 12px;
@@ -122,6 +198,7 @@ article:hover {
     font-size: 12px;
 }
 
+/*  TITLE ROW  */
 .title-row {
     display: flex;
     align-items: flex-start;
@@ -140,6 +217,7 @@ article:hover {
     font-weight: 500;
     color: var(--text-primary);
     line-height: 1.4;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
 .title-row input[type="checkbox"] {
@@ -153,32 +231,104 @@ article:hover {
     z-index: 1;
 }
 
-input[type="checkbox"]:checked::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(22, 163, 74, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: ripple 0.6s ease-out forwards;
+/*  DESCRIPTION / COLLAPSIBLE  */
+.collapsible-section {
+    margin: 0 0 0 26px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
-[data-testid="test-todo-description"] {
+.collapsible-section p[data-testid="test-todo-description"] {
     font-size: 13px;
     color: var(--text-secondary);
-    margin: 0 0 14px 26px;
     line-height: 1.6;
+    margin-bottom: 10px;
 }
 
+/* Collapsed state: clip to ~3 lines */
+.collapsible-section.is-collapsible.is-collapsed {
+    max-height: 4.8em;
+    /* ~3 lines at 1.6 line-height */
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+/* Expanded state: let it breathe */
+.collapsible-section.is-collapsible:not(.is-collapsed) {
+    max-height: 600px;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+/* Non-collapsible: just show normally */
+.collapsible-section:not(.is-collapsible) {
+    max-height: none;
+}
+
+/* Expand toggle button */
+.expand-toggle {
+    display: none;
+    /* JS shows it when needed */
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 11px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0 0 10px 26px;
+    padding: 0;
+    transition: opacity 0.2s ease;
+}
+
+.expand-toggle svg {
+    width: 13px;
+    height: 13px;
+    transition: transform 0.2s ease;
+}
+
+.expand-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+.expand-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+/*  OVERDUE INDICATOR  */
+[data-testid="test-todo-overdue-indicator"] {
+    display: none;
+    /* shown via JS */
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    background: var(--red-bg);
+    padding: 3px 10px;
+    border-radius: 999px;
+    width: fit-content;
+    margin: 0 0 10px 26px;
+    animation: fadeIn 0.2s ease;
+}
+
+[data-testid="test-todo-overdue-indicator"] svg {
+    width: 12px;
+    height: 12px;
+}
+
+/*  DIVIDER  */
 .divider {
     border: none;
     border-top: 0.5px solid var(--border);
     margin: 14px 0;
 }
 
+/*  DUE DATE  */
 [data-testid="test-todo-due-date"] {
     display: flex;
     align-items: center;
@@ -193,7 +343,7 @@ input[type="checkbox"]:checked::before {
     height: 13px;
 }
 
-/* Edit Form */
+/*  EDIT FORM  */
 .edit-form {
     background: var(--bg-page);
     border-radius: 8px;
@@ -235,18 +385,58 @@ input[type="checkbox"]:checked::before {
     resize: none;
 }
 
+.edit-field textarea {
+    resize: vertical;
+    min-height: 72px;
+}
+
+.edit-field select {
+    cursor: pointer;
+}
+
 .edit-field input:focus,
 .edit-field textarea:focus,
 .edit-field select:focus {
     border-color: var(--primary);
 }
 
+.edit-form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding-top: 4px;
+}
+
+[data-testid="test-todo-save-button"] {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    padding: 5px 16px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+[data-testid="test-todo-cancel-button"] {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    padding: 5px 16px;
+    border-radius: 8px;
+    border: 0.5px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+/*  TAGS  */
 [data-testid="test-todo-tags"] {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 16px;
 }
 
 [data-testid="test-todo-tags"] li {
@@ -258,6 +448,7 @@ input[type="checkbox"]:checked::before {
     border: 0.5px solid var(--border);
 }
 
+/*  CARD ACTIONS  */
 .card-actions {
     display: flex;
     justify-content: space-between;
@@ -296,12 +487,12 @@ input[type="checkbox"]:checked::before {
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-[data-testid="test-todo-edit-button"].save-mode {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
+[data-testid="test-todo-edit-button"]:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 [data-testid="test-todo-delete-button"] {
@@ -313,13 +504,10 @@ input[type="checkbox"]:checked::before {
     color: var(--red);
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-[data-testid="test-todo-delete-button"].cancel-mode {
-    border-color: var(--border);
-    color: var(--text-secondary);
-}
-
+/*  DELETED STATE  */
 .deleted-message {
     display: flex;
     flex-direction: column;
@@ -340,16 +528,19 @@ input[type="checkbox"]:checked::before {
     color: var(--text-secondary);
 }
 
+/*  FOCUS & HOVER  */
 button:hover {
     opacity: 0.8;
 }
 
 button:focus-visible,
-input[type="checkbox"]:focus-visible {
+input[type="checkbox"]:focus-visible,
+select:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
 
+/*  ANIMATIONS  */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -370,6 +561,7 @@ input[type="checkbox"]:focus-visible {
     }
 }
 
+/*  RESPONSIVE  */
 @media (min-width: 480px) {
     main {
         max-width: 460px;
@@ -394,7 +586,7 @@ input[type="checkbox"]:focus-visible {
         font-size: 18px;
     }
 
-    [data-testid="test-todo-description"] {
+    .collapsible-section p[data-testid="test-todo-description"] {
         font-size: 14px;
     }
 
@@ -406,6 +598,11 @@ input[type="checkbox"]:focus-visible {
     [data-testid="test-todo-time-remaining"] {
         font-size: 12px;
     }
+
+    /* On tablet+: priority & status can sit side by side */
+    .card-top {
+        flex-wrap: nowrap;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -415,5 +612,22 @@ input[type="checkbox"]:focus-visible {
 
     article {
         padding: 2rem;
+    }
+}
+
+/*  MOBILE: Edit form stacks vertically */
+@media (max-width: 480px) {
+    .edit-form-actions {
+        flex-direction: column;
+    }
+
+    [data-testid="test-todo-save-button"],
+    [data-testid="test-todo-cancel-button"] {
+        width: 100%;
+        text-align: center;
+    }
+
+    .card-top {
+        gap: 6px;
     }
 }
